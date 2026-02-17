@@ -14,8 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
 COPY . .
 RUN python manage.py collectstatic --noinput 2>/dev/null || true
-RUN python manage.py migrate
-RUN python manage.py createsuperuser --noinput || true
 
 EXPOSE 8000
+
+ENTRYPOINT ["/app/entrypoint.sh"]
+
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "portfolio_project.wsgi:application"]
