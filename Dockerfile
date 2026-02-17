@@ -1,4 +1,3 @@
-# bbotir.xyz portfolio - Dockerfile
 FROM python:3.11-slim
 
 ENV PYTHONUNBUFFERED=1
@@ -13,7 +12,13 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
 COPY . .
-RUN python manage.py collectstatic --noinput 2>/dev/null || true
+
+RUN python manage.py collectstatic --noinput || true
 
 EXPOSE 8000
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "portfolio_project.wsgi:application"]
+
+CMD sh -c "
+python manage.py migrate &&
+python manage.py createsuperuser --noinput || true &&
+gunicorn --bind 0.0.0.0:8000 portfolio_project.wsgi:application
+"
