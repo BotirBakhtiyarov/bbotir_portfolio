@@ -1,0 +1,18 @@
+# bbotir.xyz portfolio - local/production run
+# Usage: docker-compose up -d
+version: "3.9"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file: .env
+    environment:
+      - DEBUG=False
+      - ALLOWED_HOSTS=localhost,127.0.0.1,bbotir.xyz,www.bbotir.xyz
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
+      - ./media:/app/media
+      - ./static/cv:/app/static/cv:ro
+    command: gunicorn --bind 0.0.0.0:8000 portfolio_project.wsgi:application

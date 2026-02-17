@@ -1,0 +1,8 @@
+Django>=5.0,<6
+whitenoise>=6.6
+Pillow>=10.0
+gunicorn>=21.0
+django-otp>=1.7.0
+qrcode[pil]>=8.0
+python-decouple>=3.8
+psycopg2-binary>=2.9.0  # PostgreSQL adapter (only needed if using PostgreSQL)
