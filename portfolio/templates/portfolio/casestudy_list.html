@@ -1,0 +1,29 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}Projects — Botir Bakhtiyarov{% endblock %}
+{% block meta_description %}Case studies and projects by Botir Bakhtiyarov: Django, APIs, AI-powered systems.{% endblock %}
+
+{% block content %}
+<section class="section" style="padding-top: 2.5rem;" aria-labelledby="page-title">
+    <div class="container">
+        <div class="section-head">
+            <h1 id="page-title">Projects</h1>
+            <p>Selected case studies and backend projects.</p>
+        </div>
+        <div class="card-grid">
+            {% for cs in case_studies %}
+            <a href="{% url 'portfolio:casestudy_detail' slug=cs.slug %}" class="card">
+                <h3>{{ cs.title }}</h3>
+                <p>{{ cs.summary }}</p>
+                <span class="card-arrow">Read case study</span>
+            </a>
+            {% empty %}
+            <p style="color: var(--text-muted); grid-column: 1 / -1;">No projects yet. Add case studies in Django Admin.</p>
+            {% endfor %}
+        </div>
+        <p style="margin-top: 1.5rem;">
+            <a href="{% url 'portfolio:home' %}" class="btn btn--ghost">← Back to home</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

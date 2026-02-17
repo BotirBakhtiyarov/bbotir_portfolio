@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Botir Bakhtiyarov — Backend Engineer{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'portfolio/images/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'portfolio/images/favicon.png' %}">
+    <meta name="description" content="{% block meta_description %}Backend Engineer | Django • APIs • AI-Powered Systems. Portfolio of Botir Bakhtiyarov.{% endblock %}">
+    <link rel="canonical" href="https://{{ site_domain }}{{ request.path }}">
+    {% block meta_extra %}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}{{ site_name }} — Backend Engineer{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ site_description }}{% endblock %}">
+    <meta property="og:url" content="https://{{ site_domain }}{{ request.path }}">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ site_name }} — Backend Engineer{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{{ site_description }}{% endblock %}">
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'portfolio/css/main.css' %}">
+    {% block extra_head %}{% endblock %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "{{ site_name }}",
+      "jobTitle": "Backend Engineer",
+      "url": "https://{{ site_domain }}/",
+      "description": "{{ site_description }}",
+      "sameAs": [
+        "https://www.linkedin.com/in/botir-bakhtiyarov-856a83243/",
+        "https://github.com/BotirBakhtiyarov"
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header class="site-header" role="banner">
+        <div class="container">
+            <a href="{% url 'portfolio:home' %}" class="logo" aria-label="bbotir.xyz home">bbotir.xyz</a>
+            <nav class="nav" aria-label="Main">
+                <ul class="nav-links">
+                    <li><a href="{% url 'portfolio:home' %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}>Home</a></li>
+                    <li><a href="{% url 'portfolio:casestudy_list' %}" {% if request.resolver_match.url_name == 'casestudy_list' or request.resolver_match.url_name == 'casestudy_detail' %}aria-current="page"{% endif %}>Projects</a></li>
+                    <li><a href="{% url 'portfolio:home' %}#contact">Contact</a></li>
+                    <li><a href="{% url 'portfolio:cv_download' %}">CV</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main id="main-content" role="main">
+        {% if messages %}
+        <div class="container" style="padding-top: 1.5rem;">
+            <div class="messages" role="status" aria-live="polite">
+                {% for message in messages %}
+                <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <p>© {% now "Y" %} {{ site_name }} · <a href="{% url 'portfolio:home' %}">bbotir.xyz</a></p>
+        </div>
+    </footer>
+    <script src="{% static 'portfolio/js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

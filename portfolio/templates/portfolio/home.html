@@ -1,0 +1,132 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<section class="hero" aria-labelledby="hero-heading">
+    <div class="container">
+        <p class="hero-badge" aria-hidden="true">Backend Engineer</p>
+        <h1 id="hero-heading">Botir Bakhtiyarov</h1>
+        <p class="tagline">Django • APIs • AI-Powered Systems</p>
+        <p class="intro">
+            I build robust backend systems with Django and Python: microservices, REST APIs, and AI-powered platforms.
+            Focus on production-ready code, clear architecture, and scalable solutions.
+        </p>
+        <div class="hero-ctas">
+            <a href="{% url 'portfolio:casestudy_list' %}" class="btn btn--primary">View Projects</a>
+            <a href="{% url 'portfolio:cv_download' %}" class="btn btn--secondary" download>Download CV</a>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="skills" aria-labelledby="skills-heading">
+    <div class="container">
+        <div class="section-head">
+            <h2 id="skills-heading">Skills</h2>
+            <p>Core technologies and practices I use day to day.</p>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-group">
+                <h3>Core Backend</h3>
+                <ul>
+                    <li>Django</li>
+                    <li>Django REST Framework</li>
+                    <li>Python</li>
+                    <li>PostgreSQL / MySQL</li>
+                </ul>
+            </div>
+            <div class="skill-group">
+                <h3>Architecture & Tools</h3>
+                <ul>
+                    <li>REST APIs</li>
+                    <li>Microservices</li>
+                    <li>Celery / Async tasks</li>
+                    <li>Docker</li>
+                    <li>Git</li>
+                </ul>
+            </div>
+            <div class="skill-group">
+                <h3>AI & Advanced</h3>
+                <ul>
+                    <li>LLM integrations</li>
+                    <li>RAG systems</li>
+                    <li>n8n automation</li>
+                    <li>Automation platforms</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--alt" id="projects" aria-labelledby="projects-heading">
+    <div class="container">
+        <div class="section-head">
+            <h2 id="projects-heading">Projects</h2>
+            <p>Selected case studies and backend projects.</p>
+        </div>
+        <div class="card-grid">
+            {% for cs in case_studies %}
+            <a href="{% url 'portfolio:casestudy_detail' slug=cs.slug %}" class="card">
+                <h3>{{ cs.title }}</h3>
+                <p>{{ cs.summary }}</p>
+                <span class="card-arrow">Read case study</span>
+            </a>
+            {% empty %}
+            <p style="color: var(--text-muted); grid-column: 1 / -1;">Projects will appear here. Add case studies in Django Admin.</p>
+            {% endfor %}
+        </div>
+        {% if case_studies %}
+        <p style="margin-top: 1.5rem;">
+            <a href="{% url 'portfolio:casestudy_list' %}" class="btn btn--secondary">All Projects</a>
+        </p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section" id="experience" aria-labelledby="experience-heading">
+    <div class="container">
+        <div class="section-head">
+            <h2 id="experience-heading">Experience Highlights</h2>
+        </div>
+        <ul class="highlights">
+            <li>Shipped AI-powered tools and integrations in production</li>
+            <li>Designed and built microservices and REST APIs at scale</li>
+            <li>Delivered automation platforms and backend systems end-to-end</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section section--alt" id="contact" aria-labelledby="contact-heading">
+    <div class="container container--wide">
+        <div class="section-head">
+            <h2 id="contact-heading">Contact</h2>
+            <p>Reach out for opportunities or collaboration.</p>
+        </div>
+        <div class="contact-links">
+            <a href="mailto:hello@bbotir.xyz">hello@bbotir.xyz</a>
+            <a href="https://www.linkedin.com/in/botir-bakhtiyarov-856a83243/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/BotirBakhtiyarov" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+        <form method="post" action="{% url 'portfolio:home' %}" aria-label="Contact form">
+            {% csrf_token %}
+            {% if contact_form.non_field_errors %}
+            <div class="form-errors" role="alert">{{ contact_form.non_field_errors }}</div>
+            {% endif %}
+            <div class="form-group">
+                <label for="id_name">Name</label>
+                {{ contact_form.name }}
+                {% if contact_form.name.errors %}<span class="form-errors">{{ contact_form.name.errors }}</span>{% endif %}
+            </div>
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                {{ contact_form.email }}
+                {% if contact_form.email.errors %}<span class="form-errors">{{ contact_form.email.errors }}</span>{% endif %}
+            </div>
+            <div class="form-group">
+                <label for="id_message">Message</label>
+                {{ contact_form.message }}
+                {% if contact_form.message.errors %}<span class="form-errors">{{ contact_form.message.errors }}</span>{% endif %}
+            </div>
+            <button type="submit" class="btn btn--primary">Send message</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

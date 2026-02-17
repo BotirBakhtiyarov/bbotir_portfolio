@@ -1,0 +1,57 @@
+{% extends "portfolio/base.html" %}
+
+{% block title %}{{ case_study.title }} — Botir Bakhtiyarov{% endblock %}
+{% block meta_description %}{{ case_study.summary }}{% endblock %}
+{% block og_title %}{{ case_study.title }} — Botir Bakhtiyarov{% endblock %}
+{% block og_description %}{{ case_study.summary }}{% endblock %}
+{% block twitter_title %}{{ case_study.title }} — Botir Bakhtiyarov{% endblock %}
+{% block twitter_description %}{{ case_study.summary }}{% endblock %}
+
+{% block content %}
+<article class="article section" style="padding-top: 2.5rem;" itemscope itemtype="https://schema.org/Article">
+    <div class="container container--wide">
+        <p class="article-back">
+            <a href="{% url 'portfolio:casestudy_list' %}">← Projects</a>
+        </p>
+        <header>
+            <h1 itemprop="name">{{ case_study.title }}</h1>
+            <p class="summary" itemprop="description">{{ case_study.summary }}</p>
+        </header>
+
+        <h2>Problem</h2>
+        <div>{{ case_study.problem|linebreaks }}</div>
+
+        <h2>Solution</h2>
+        <div>{{ case_study.solution|linebreaks }}</div>
+
+        <h2>Tech stack</h2>
+        <div class="tech-tags">
+            {% for tech in case_study.tech_list %}
+            <span class="tech-tag">{{ tech }}</span>
+            {% endfor %}
+        </div>
+
+        <h2>Key results</h2>
+        <div>{{ case_study.key_results|linebreaks }}</div>
+
+        {% if case_study.images.exists %}
+        <h2>Screenshots</h2>
+        {% for img in case_study.images.all %}
+        <figure>
+            <img src="{{ img.image.url }}" alt="{{ img.alt_text|default:case_study.title }}" loading="lazy" width="800" height="auto">
+            {% if img.alt_text %}<figcaption>{{ img.alt_text }}</figcaption>{% endif %}
+        </figure>
+        {% endfor %}
+        {% endif %}
+
+        <div class="article-links">
+            {% if case_study.github_link %}
+            <a href="{{ case_study.github_link }}" target="_blank" rel="noopener noreferrer" class="btn btn--primary">GitHub</a>
+            {% endif %}
+            {% if case_study.demo_link %}
+            <a href="{{ case_study.demo_link }}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">Demo</a>
+            {% endif %}
+        </div>
+    </div>
+</article>
+{% endblock %}
