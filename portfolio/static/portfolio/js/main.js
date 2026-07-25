@@ -1,10 +1,30 @@
 /**
- * bbotir.xyz — Lightweight UX: smooth scroll, focus management, contact form polish.
+ * bbotir.xyz — Light editorial portfolio interactions
  */
 (function () {
   'use strict';
 
-  // Smooth scroll for anchor links (respects prefers-reduced-motion in CSS)
+  // Mobile navigation toggle
+  var navToggle = document.querySelector('.nav-toggle');
+  var nav = document.querySelector('#main-nav');
+
+  if (navToggle && nav) {
+    navToggle.addEventListener('click', function () {
+      var isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!isExpanded));
+      nav.classList.toggle('is-open');
+    });
+
+    // Close mobile menu when a link is clicked
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navToggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+      });
+    });
+  }
+
+  // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     var id = anchor.getAttribute('href');
     if (id === '#') return;
@@ -19,9 +39,9 @@
     });
   });
 
-  // After form submit success, focus the first heading or contact section for screen readers
-  var messages = document.querySelector('.message.success');
-  if (messages) {
+  // After form submit success, focus the first heading
+  var successMessage = document.querySelector('.message.success');
+  if (successMessage) {
     var main = document.querySelector('main');
     if (main) {
       var firstHeading = main.querySelector('h1, h2');
@@ -32,7 +52,7 @@
     }
   }
 
-  // Staggered reveal on scroll (2026-style)
+  // Scroll reveal
   if (typeof IntersectionObserver !== 'undefined' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -40,11 +60,11 @@
           entry.target.classList.add('is-visible');
         }
       });
-    }, { rootMargin: '0px 0px -50px 0px', threshold: 0 });
+    }, { rootMargin: '0px 0px -60px 0px', threshold: 0 });
 
-    document.querySelectorAll('.card, .skill-group, .section-head').forEach(function (el, i) {
+    document.querySelectorAll('.card, .skill-group, .section-head, .hero-inner > *').forEach(function (el, i) {
       el.classList.add('reveal-on-scroll');
-      el.style.setProperty('--reveal-delay', (i * 0.06) + 's');
+      el.style.setProperty('--reveal-delay', (i * 0.05) + 's');
       observer.observe(el);
     });
   }
