@@ -19,6 +19,9 @@
     <meta name="twitter:title" content="{% block twitter_title %}{{ site_name }} — Backend Engineer{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}{{ site_description }}{% endblock %}">
     {% endblock %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'portfolio/css/main.css' %}">
     {% block extra_head %}{% endblock %}
     <script type="application/ld+json">
@@ -39,9 +42,14 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="site-header" role="banner">
-        <div class="container">
+        <div class="container header-inner">
             <a href="{% url 'portfolio:home' %}" class="logo" aria-label="bbotir.xyz home">bbotir.xyz</a>
-            <nav class="nav" aria-label="Main">
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+                <span class="nav-toggle-bar" aria-hidden="true"></span>
+            </button>
+            <nav class="nav" id="main-nav" aria-label="Main">
                 <ul class="nav-links">
                     <li><a href="{% url 'portfolio:home' %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}>Home</a></li>
                     <li><a href="{% url 'portfolio:casestudy_list' %}" {% if request.resolver_match.url_name == 'casestudy_list' or request.resolver_match.url_name == 'casestudy_detail' %}aria-current="page"{% endif %}>Projects</a></li>
