@@ -2,17 +2,31 @@
 
 {% block content %}
 <section class="hero" aria-labelledby="hero-heading">
-    <div class="container">
-        <p class="hero-badge" aria-hidden="true">Backend Engineer</p>
-        <h1 id="hero-heading">Botir Bakhtiyarov</h1>
-        <p class="tagline">Django • APIs • AI-Powered Systems</p>
-        <p class="intro">
-            I build robust backend systems with Django and Python: microservices, REST APIs, and AI-powered platforms.
-            Focus on production-ready code, clear architecture, and scalable solutions.
-        </p>
-        <div class="hero-ctas">
-            <a href="{% url 'portfolio:casestudy_list' %}" class="btn btn--primary">View Projects</a>
-            <a href="{% url 'portfolio:cv_download' %}" class="btn btn--secondary" download>Download CV</a>
+    <div class="container hero-inner">
+        <div class="hero-content">
+            <p class="hero-badge" aria-hidden="true">Backend Engineer</p>
+            <h1 id="hero-heading">Botir Bakhtiyarov</h1>
+            <p class="tagline">Django • APIs • AI-Powered Systems</p>
+            <div class="hero-ctas">
+                <a href="{% url 'portfolio:casestudy_list' %}" class="btn btn--primary">View Projects</a>
+                <a href="{% url 'portfolio:cv_download' %}" class="btn btn--secondary" download>Download CV</a>
+            </div>
+        </div>
+        <div class="hero-about">
+            <p class="hero-intro">
+                I build robust backend systems with Django and Python: microservices, REST APIs, and AI-powered platforms.
+                Focus on production-ready code, clear architecture, and scalable solutions.
+            </p>
+            <div class="hero-skills">
+                <h3>Core stack</h3>
+                <ul class="hero-skills-list">
+                    <li>Django</li>
+                    <li>DRF</li>
+                    <li>PostgreSQL</li>
+                    <li>Docker</li>
+                    <li>AI / LLMs</li>
+                </ul>
+            </div>
         </div>
     </div>
 </section>
@@ -25,6 +39,9 @@
         </div>
         <div class="skills-grid">
             <div class="skill-group">
+                <svg class="skill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path d="M4 17l6-6-6-6M12 19h8"/>
+                </svg>
                 <h3>Core Backend</h3>
                 <ul>
                     <li>Django</li>
@@ -34,6 +51,9 @@
                 </ul>
             </div>
             <div class="skill-group">
+                <svg class="skill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
                 <h3>Architecture & Tools</h3>
                 <ul>
                     <li>REST APIs</li>
@@ -44,6 +64,9 @@
                 </ul>
             </div>
             <div class="skill-group">
+                <svg class="skill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3M3.343 5.636l.707.707M16.95 17.05l-1.414-1.414M6.343 6.343L4.93 4.93M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"/>
+                </svg>
                 <h3>AI & Advanced</h3>
                 <ul>
                     <li>LLM integrations</li>
@@ -67,6 +90,11 @@
             <a href="{% url 'portfolio:casestudy_detail' slug=cs.slug %}" class="card">
                 <h3>{{ cs.title }}</h3>
                 <p>{{ cs.summary }}</p>
+                <div class="tech-tags">
+                    {% for tech in cs.tech_list|slice:":5" %}
+                    <span class="tech-tag">{{ tech }}</span>
+                    {% endfor %}
+                </div>
                 <span class="card-arrow">Read case study</span>
             </a>
             {% empty %}
@@ -74,7 +102,7 @@
             {% endfor %}
         </div>
         {% if case_studies %}
-        <p style="margin-top: 1.5rem;">
+        <p style="margin-top: 2rem;">
             <a href="{% url 'portfolio:casestudy_list' %}" class="btn btn--secondary">All Projects</a>
         </p>
         {% endif %}
@@ -95,38 +123,43 @@
 </section>
 
 <section class="section section--alt" id="contact" aria-labelledby="contact-heading">
-    <div class="container container--wide">
+    <div class="container">
         <div class="section-head">
             <h2 id="contact-heading">Contact</h2>
             <p>Reach out for opportunities or collaboration.</p>
         </div>
-        <div class="contact-links">
-            <a href="mailto:hello@bbotir.xyz">hello@bbotir.xyz</a>
-            <a href="https://www.linkedin.com/in/botir-bakhtiyarov-856a83243/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="https://github.com/BotirBakhtiyarov" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Let's talk</h3>
+                <div class="contact-links">
+                    <a href="mailto:hello@bbotir.xyz">hello@bbotir.xyz</a>
+                    <a href="https://www.linkedin.com/in/botir-bakhtiyarov-856a83243/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://github.com/BotirBakhtiyarov" target="_blank" rel="noopener noreferrer">GitHub</a>
+                </div>
+            </div>
+            <form method="post" action="{% url 'portfolio:home' %}" aria-label="Contact form">
+                {% csrf_token %}
+                {% if contact_form.non_field_errors %}
+                <div class="form-errors" role="alert">{{ contact_form.non_field_errors }}</div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="id_name">Name</label>
+                    {{ contact_form.name }}
+                    {% if contact_form.name.errors %}<span class="form-errors">{{ contact_form.name.errors }}</span>{% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_email">Email</label>
+                    {{ contact_form.email }}
+                    {% if contact_form.email.errors %}<span class="form-errors">{{ contact_form.email.errors }}</span>{% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="id_message">Message</label>
+                    {{ contact_form.message }}
+                    {% if contact_form.message.errors %}<span class="form-errors">{{ contact_form.message.errors }}</span>{% endif %}
+                </div>
+                <button type="submit" class="btn btn--primary" style="width: 100%;">Send message</button>
+            </form>
         </div>
-        <form method="post" action="{% url 'portfolio:home' %}" aria-label="Contact form">
-            {% csrf_token %}
-            {% if contact_form.non_field_errors %}
-            <div class="form-errors" role="alert">{{ contact_form.non_field_errors }}</div>
-            {% endif %}
-            <div class="form-group">
-                <label for="id_name">Name</label>
-                {{ contact_form.name }}
-                {% if contact_form.name.errors %}<span class="form-errors">{{ contact_form.name.errors }}</span>{% endif %}
-            </div>
-            <div class="form-group">
-                <label for="id_email">Email</label>
-                {{ contact_form.email }}
-                {% if contact_form.email.errors %}<span class="form-errors">{{ contact_form.email.errors }}</span>{% endif %}
-            </div>
-            <div class="form-group">
-                <label for="id_message">Message</label>
-                {{ contact_form.message }}
-                {% if contact_form.message.errors %}<span class="form-errors">{{ contact_form.message.errors }}</span>{% endif %}
-            </div>
-            <button type="submit" class="btn btn--primary">Send message</button>
-        </form>
     </div>
 </section>
 {% endblock %}
