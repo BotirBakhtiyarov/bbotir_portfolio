@@ -4,7 +4,7 @@
 {% block meta_description %}Case studies and projects by Botir Bakhtiyarov: Django, APIs, AI-powered systems.{% endblock %}
 
 {% block content %}
-<section class="section" style="padding-top: 2.5rem;" aria-labelledby="page-title">
+<section class="section" aria-labelledby="page-title">
     <div class="container">
         <div class="section-head">
             <h1 id="page-title">Projects</h1>
@@ -15,13 +15,18 @@
             <a href="{% url 'portfolio:casestudy_detail' slug=cs.slug %}" class="card">
                 <h3>{{ cs.title }}</h3>
                 <p>{{ cs.summary }}</p>
+                <div class="tech-tags">
+                    {% for tech in cs.tech_list|slice:":5" %}
+                    <span class="tech-tag">{{ tech }}</span>
+                    {% endfor %}
+                </div>
                 <span class="card-arrow">Read case study</span>
             </a>
             {% empty %}
             <p style="color: var(--text-muted); grid-column: 1 / -1;">No projects yet. Add case studies in Django Admin.</p>
             {% endfor %}
         </div>
-        <p style="margin-top: 1.5rem;">
+        <p style="margin-top: 2rem;">
             <a href="{% url 'portfolio:home' %}" class="btn btn--ghost">← Back to home</a>
         </p>
     </div>
