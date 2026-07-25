@@ -8,10 +8,10 @@
 {% block twitter_description %}{{ case_study.summary }}{% endblock %}
 
 {% block content %}
-<article class="article section" style="padding-top: 2.5rem;" itemscope itemtype="https://schema.org/Article">
+<article class="article section" itemscope itemtype="https://schema.org/Article">
     <div class="container container--wide">
         <p class="article-back">
-            <a href="{% url 'portfolio:casestudy_list' %}">← Projects</a>
+            <a href="{% url 'portfolio:casestudy_list' %}">← Back to case studies</a>
         </p>
         <header>
             <h1 itemprop="name">{{ case_study.title }}</h1>
@@ -24,14 +24,14 @@
         <h2>Solution</h2>
         <div>{{ case_study.solution|linebreaks }}</div>
 
-        <h2>Tech stack</h2>
+        <h2>Tech Stack</h2>
         <div class="tech-tags">
             {% for tech in case_study.tech_list %}
             <span class="tech-tag">{{ tech }}</span>
             {% endfor %}
         </div>
 
-        <h2>Key results</h2>
+        <h2>Key Results</h2>
         <div>{{ case_study.key_results|linebreaks }}</div>
 
         {% if case_study.images.exists %}
@@ -49,7 +49,7 @@
             <a href="{{ case_study.github_link }}" target="_blank" rel="noopener noreferrer" class="btn btn--primary">GitHub</a>
             {% endif %}
             {% if case_study.demo_link %}
-            <a href="{{ case_study.demo_link }}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">Demo</a>
+            <a href="{{ case_study.demo_link }}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">Live Demo</a>
             {% endif %}
         </div>
     </div>
